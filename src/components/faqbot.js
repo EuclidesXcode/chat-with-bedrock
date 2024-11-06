@@ -150,8 +150,8 @@ export const Faqbot = ({ toggleFaqbot }) => {
 const styles = {
     container: {
         position: 'fixed',
-        width: '800px',
-        height: '800px',
+        maxWidth: '800px',
+        maxHeight: '800px',
         backgroundColor: '#fff',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
         borderRadius: '8px',
