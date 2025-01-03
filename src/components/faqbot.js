@@ -33,22 +33,27 @@ export const Faqbot = ({ toggleFaqbot }) => {
             const data = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(postBody),
             });
 
-            console.log("O QUE RECEBI: ", data)
+            const text = await data.text()
 
-            if (!data.response) {
+            console.log("O QUE RECEBI: ", JSON.parse(text))
+
+            if (!text) {
                 throw new Error(`API error: ${data.error}`);
             }
 
-            const postData = await data.json();
-            const { response } = postData;
+            const message = {
+                sender: 'bot',
+                text: JSON.parse(text)
+            }
 
-            makeRequest(response);
+            setMessages((prevMessages) => [...prevMessages, message]);
+            setLoading(false);
+
         } catch (error) {
             console.error('Error posting request:', error);
             const errorMessage = { sender: 'bot', text: 'Desculpe, ocorreu um erro ao enviar a pergunta.' };
@@ -116,7 +121,7 @@ export const Faqbot = ({ toggleFaqbot }) => {
                         />
                     </div>
                     <div>
-                        <p style={styles.question}>Você precisa de ajuda</p>
+                        <p style={styles.question}>VocÃª precisa de ajuda</p>
                     </div>
                 </div>
                 <div style={styles.responseContainer} ref={responseContainerRef}>
